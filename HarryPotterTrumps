@@ -1,0 +1,51 @@
+import pandas as pd
+import random
+
+url = "https://raw.githubusercontent.com/APStats/Top-Trumps-data/master/Top%20Trumps%20-%20Harry%20Potter%20and%20the%20Deathly%20Hallows%20Part%202.csv"
+hp_df = pd.read_csv(url)
+
+"""randomize rows in dataframe"""
+df_shuffled = hp_df.sample(frac=1)
+
+"""split deck in half (ie half the cards for each player)"""
+p1_cards = df_shuffled[0:15]
+computer_cards = df_shuffled[15:29]
+
+"""draw a card"""
+def card():
+    player1 = p1_cards.sample()
+    computer = computer_cards.sample()
+    return[player1, computer]
+
+deal = card()
+player1_cards = deal[0]
+computer_cards = deal[1]
+
+"""print your card"""
+print("Your card is "+str(deal[0].Individual))
+print("Magic:" + str(deal[0].Magic))
+print("Cunning: "+str(deal[0].Cunning))
+print("Courage: "+str(deal[0].Courage))
+print("Wisdom: "+str(deal[0].Wisdom))
+print("Temper: "+str(deal[0].Temper))
+
+"""pick which property to use"""
+Property = input("Which property do you pick?  \n"
+              "Magic  \n"
+              "Cunning  \n"
+              'Courage  \n'
+              "Wisdom  \n"
+              "or Temper ?")
+
+print("Your opponent draws "+str(deal[1].Individual)+" with a score of"+ str(deal[1][Property]))
+
+"""who wins"""
+player1_score = int(deal[0][Property])
+computer_score = int(deal[1][Property])
+
+if player1_score > computer_score:
+    print("You win!")
+elif player1_score <computer_score:
+    print("You lose :(")
+else:
+    print("It's a tie!")
